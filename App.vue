@@ -1,17 +1,25 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  
+    <BookList msg="Welcome to Your Vue.js Book Store"/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import BookList from './views/BookList.vue'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    BookList
+  },
+  methods :{
+    ...mapActions(['loadBooks'])
+  },
+  created(){
+    this.loadBooks();
   }
 }
 </script>
