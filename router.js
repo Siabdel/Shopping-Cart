@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home'
-import BooksList from './views/BookList'
+import BookList from './components/BookList'
+import CartBookList from './components/CartBookList'
+import CartDetails from './components/ProductDetails'
 
 Vue.use(Router);
 
@@ -12,9 +14,17 @@ const router =  new Router({
             'name' : 'Home',
             'component'  : Home,
         },
-        {   'path': '/Books', 
-            'name' : 'Books',
-            'component'  : BooksList,
+        {   'path': '/books', 
+            'name' : 'books',
+            'component'  : BookList,
+        },
+        {   'path': '/books-card', 
+            'name' : 'books-card',
+            'component'  : CartBookList,
+        },
+        {   'path': '/book-details/:id', 
+            'name' : 'book-details',
+            'component'  : CartDetails,
         },
 
     ]

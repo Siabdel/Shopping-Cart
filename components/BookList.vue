@@ -9,7 +9,6 @@
         </div>
 
         <div v-else> 
-            <div> {{ books[0].volumeInfo}}</div>
             <table class="table table-striped table-bordered">
                 <thead>
                     <th>Index</th><th>Titre</th> <th>Auteur</th> <th>Editeur</th>  <th>Date Edition</th><th>Action</th>

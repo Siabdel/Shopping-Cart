@@ -10,13 +10,19 @@ export default new Vuex.Store({
         books : [],
         isLoading : false,
         selectedBookId : null,
+        termSearched : null,
     },
 
-    getters : {},
+    getters : {
+        getBookSelected : state => {
+            return state.books.find( book => book.id === state.selectedBookId )
+            //console.log("getBookSelected : " + bb.volumeInfo.title)
+        }
+    },
 
     mutations : {
         setBooks(state, {books}){
-            state.books = books
+            state.books = books;
         },
 
         setIsLoading(state, bool){
@@ -26,15 +32,19 @@ export default new Vuex.Store({
             state.selectedBookId = id;
         },
 
+        setTermToSearch(state, term){
+            state.termSearched = term;
+        },
+
     },
     actions : {
 
-        loadBooks( {commit }){
+        loadBooks( {commit }, term){
             
             //let url = `https://www.googleapis.com/books/v1/volumes?q=search+vue.js&key=AIzaSyDCdbg3vdrRVokCr6E2-ADtbWT80NqMV_0`
-            let url = `https://www.googleapis.com/books/v1/volumes?q=search+vue.js`
             //let url = 'http://atlass.fr:93/apipro/directories/'
             //let url = 'https://randomuser.me/api/?nat=fr,Fr&results=10&seed=abc'
+            let url = `https://www.googleapis.com/books/v1/volumes?q=search+` + term
 
 
             commit("setIsLoading", true)
@@ -46,7 +56,7 @@ export default new Vuex.Store({
                     {
                     commit("setIsLoading", false)
                     commit("setBooks", { books : res.data.items });
-                    }, 3500
+                    }, 1500
                 )
                 console.log("  Books loaded ..." + res.data.items.length)
             })

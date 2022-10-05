@@ -1,22 +1,32 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-  
-    <BookList msg="Welcome to Your Vue.js Book Store"/>
-  </div>
+    <div class="container-fluid">
+        <h1> {{ msg }} </h1>
+    <ul class="list-group">
+        <li class="list-group-item ">
+          <router-link to="/books-card"> Mes books  </router-link>
+        </li>
+        <li class="list-group-item"> 
+          <router-link to="/books"> liste des livres </router-link>
+        </li>
+    </ul>
+    <router-view> </router-view>
+    </div>
+
 </template>
 
 <script>
-import BookList from './views/BookList.vue'
 import { mapActions } from 'vuex';
 
 export default {
   name: 'App',
-  components: {
-    BookList
+  data(){
+    return {
+      msg : "Shopping Cart"
+    }
   },
+
   methods :{
-    ...mapActions(['loadBooks'])
+    ...mapActions(['loadBooks']), 
   },
   created(){
     this.loadBooks();
