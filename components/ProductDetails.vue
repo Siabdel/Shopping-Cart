@@ -2,16 +2,14 @@
    <!--Main layout-->
   <main class="mt-5 pt-4">
     <div class="container dark-grey-text mt-5">
-
       <!--Grid row-->
       <div class="row wow fadeIn">
-			<h1> *** {{ getBookSelected.volumeInfo.title }} ***</h1>
 
         <!--Grid column-->
         <div class="col-md-6 mb-4">
-		  <img :src="photo" alt="">
-		  <!-- <img :src="{{ getBookSelected.volumeInfo.imageLinks.thumbnail }}" alt=""> -->
-		</div>
+          <h1> {{ getBookSelected.volumeInfo.title }} </h1>
+          <img :src="photo" alt="" width="300px">
+        </div>
         <!--Grid column-->
 
         <!--Grid column-->
@@ -34,24 +32,22 @@
 
             <p class="lead">
               <span class="mr-1">
-                <del> {{ prix }} </del>
+                <del>  100 € </del>
               </span>
-              <span>$100</span>
+              <span>{{ prix }} €</span>
             </p>
 
             <p class="lead font-weight-bold">Description</p>
 
-            <p> {{ getBookSelected.volumeInfo.description }}</p>
+            <p> {{ getBookSelected.volumeInfo.description.slice(1, 500)}}</p>
 
             <form class="d-flex justify-content-left">
               <!-- Default input -->
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" type="submit">Add to cart
+              <button class="btn btn-primary btn-md my-0 p" @click.prevent="addBook">Add to cart
                 <i class="fas fa-shopping-cart ml-1"></i>
               </button>
-
             </form>
-
           </div>
           <!--Content-->
 
@@ -68,13 +64,11 @@
 
         <!--Grid column-->
         <div class="col-md-6 text-center">
-
           <h4 class="my-4 h4">Additional information</h4>
-
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
             voluptates,
-            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
-
+            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.
+			</p>
         </div>
         <!--Grid column-->
 
@@ -119,6 +113,7 @@
     
     import 'bootstrap/dist/css/bootstrap.min.css';
     import { mapMutations, mapGetters } from "vuex" 
+    import axios from "axios";
 	
     export default {
         name : "ProductDetails",
@@ -141,16 +136,32 @@
 			},
 
 			prix(){
-				if (!!this.getBookSelected.saleInfo.listPrice.amount){
-					return `${this.getBookSelected.saleInfo.listPrice.amount}`
-				}else{
-					return 0.0 
-				}
+          if(this.getBookSelected.saleInfo.listPrice == undefined){
+            return 0 
+          } else {
+            return `${this.getBookSelected.saleInfo.listPrice.amount}`
+
+          }
 			}
 			
 		},
 		methods:{
 			...mapMutations(['setSelectedBook']),
+      // add book to base
+      addBook(){
+        let url = `http://localhost:8000/apipro/books/`;
+        //const article1 = { title: 'Axios POST Request Example', description : 'Axios POST Request Example', };
+        const article = this.getBookSelected.volumeInfo;
+        article['selfLink'] = this.getBookSelected.selfLink;
+        article['saleInfo'] = this.getBookSelected.saleInfo
+        //listPrice.amount
+
+        axios.post(url,  article)
+            .then(response => console.log("Add Book in DB id=" +  response.data.id))
+            .catch(error => {
+                console.error('There was an error!', error);
+            });
+      }
 		},
 
 		created(){

@@ -12,8 +12,8 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="card card-body">
-                    <img :src="book.volumeInfo.imageLinks.smallThumbnail" 
-                        alt="book.volumeInfo.imageLinks.thumbnail }}" /> 
+                    <img :src="book.volumeInfo.imageLinks.thumbnail" 
+                        :alt="book.volumeInfo.imageLinks.thumbnail" /> 
                     </div>
                         
                 </div>
@@ -30,7 +30,7 @@
                                 <h4 class="card-title">{{ book.volumeInfo.title }}</h4>
                             </router-link>
                             <p> {{ book.volumeInfo.publishedDate}}</p> 
-                            <p> {{ book.volumeInfo.description}} </p>
+                            <p> {{ book.volumeInfo.description.slice(1, 300)}} </p>
                         </div>
                         <div class="card-footer">
                             <p> <span 

@@ -1,7 +1,6 @@
 <template>
-  <div class="container">
+  <div class="jumbotron">
     <img alt="Vue logo" src="../assets/logo.png">
-    <SearchBox  @searchKey="searchBook"  />
     <hr>
     <CartBookList msg="Welcome to Your Vue.js Book Store"/>
   </div>
@@ -11,7 +10,6 @@
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css'
     import CartBookList from '../components/CartBookList.vue'
-    import SearchBox from '../components/SearchBox.vue'
 
     import { mapActions } from 'vuex';
     import { mapMutations } from 'vuex';
@@ -21,7 +19,7 @@
         props : {
             msg:String,
         },
-        components : {CartBookList, SearchBox},
+        components : {CartBookList, },
         data: () => ({
             contactes : [],
             searchBy : true,
@@ -31,12 +29,7 @@
          ...mapActions(['loadBooks']), 
          ...mapMutations(['setTermToSearch']), 
          // chercher une cle
-         searchBook(terms){
-            console.log("la cle a chercher ==> " + terms)
-            this.setTermToSearch(terms)
-            // refaire la recherche des livres
-            this.loadBooks(terms);
-            },
+         
     
         },
     
