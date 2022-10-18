@@ -1,6 +1,9 @@
 <template>
     <div>
         <h3> Books Liste</h3>
+        <div>
+            <button @click.prevent="import_data"> Importer les books </button>
+        </div>
         <div  v-if="isLoading" class="spinner">
             <img src="" alt="">
             <div class="spinner-border text-danger" role="status">
@@ -12,8 +15,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <div class="card card-body">
-                    <img :src="book.volumeInfo.imageLinks.thumbnail" 
-                        :alt="book.volumeInfo.imageLinks.thumbnail" /> 
+                    <img :src="(book.volumeInfo.imageLinks.thumbnail)?book.volumeInfo.imageLinks.thumbnail:'#'"  />
                     </div>
                         
                 </div>
@@ -30,7 +32,7 @@
                                 <h4 class="card-title">{{ book.volumeInfo.title }}</h4>
                             </router-link>
                             <p> {{ book.volumeInfo.publishedDate}}</p> 
-                            <p> {{ book.volumeInfo.description.slice(1, 300)}} </p>
+                            <p> {{ (book.volumeInfo.description)?book.volumeInfo.description.slice(1, 300):''}} </p>
                         </div>
                         <div class="card-footer">
                             <p> <span 
@@ -52,7 +54,7 @@
 
 <script>
     import 'bootstrap/dist/css/bootstrap.min.css';
-    import { mapState} from "vuex" 
+    import { mapState, mapActions} from "vuex" 
 
     export default {
         name : "CartBookList",
@@ -64,8 +66,14 @@
             console.log("Mon Contacte ici")
         },
         computed:{
-            ...mapState([ 'isLoading', 'books'])
+            ...mapState([ 'isLoading', 'books']),
         },
+        methods: {
+            ...mapActions([ 'addBooks', ]),
+            import_data(){
+                this.addBooks(this.books)
+            }
+        }
 
     }
 

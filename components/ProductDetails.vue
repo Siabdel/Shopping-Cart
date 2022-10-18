@@ -149,7 +149,8 @@
 			...mapMutations(['setSelectedBook']),
       // add book to base
       addBook(){
-        let url = `http://localhost:8000/apipro/books/`;
+        //let url = `http://localhost:8000/apipro/books/`;
+        let url = `http://atlass.fr:93/apipro/books/`;
         //const article1 = { title: 'Axios POST Request Example', description : 'Axios POST Request Example', };
         const article = this.getBookSelected.volumeInfo;
         article['selfLink'] = this.getBookSelected.selfLink;

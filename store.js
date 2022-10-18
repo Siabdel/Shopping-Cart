@@ -65,6 +65,31 @@ export default new Vuex.Store({
                 commit("setIsLoading", false)
                 }
             )
-        }       
+        },       
+    
+      // add book to base
+      addBooks({commit}, articles){
+        let url = `http://localhost:8000/apipro/books/`;
+        //const article1 = { title: 'Axios POST Request Example', description : 'Axios POST Request Example', };
+        //listPrice.amount
+        //const articles = this.getBookSelected.volumeInfo;
+        //articles['selfLink'] = this.getBookSelected.selfLink;
+        //articles['saleInfo'] = this.getBookSelected.saleInfo
+
+
+        commit("setIsLoading", true)
+
+        articles.forEach( article=> {
+            axios.post(url,  article)
+            .then(response =>{
+                commit("setIsLoading", false)
+                console.log("Add Book in DB id=" +  response.data.id)
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+                commit("setIsLoading", false)
+            });
+        });
+      },
     }
 })
